@@ -3,9 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/styles.css" />
     <title>Employee Directory</title>
   </head>
   <body>
+    <div class="modal__overlay active">
+      <div class="modal">
+        <div class="modal__employee">
+          <img src="" alt="" class="employee__image" />
+          <div class="employee__info">
+            <h2 class="employee__name">Employee Name</h2>
+            <p class="employee__email">employee@email.com</p>
+            <p class="employee__city">Chicago</p>
+          </div>
+          <span class="modal__close">X</span>
+        </div>
+      </div>
+    </div>
     <div class="main">
       <h1 class="main__heading">Awesome Startup Employee Directory</h1>
       <div class="card-container">
@@ -107,5 +121,6 @@
         </div>
       </div>
     </div>
+    <script src="./js/app.js"></script>
   </body>
 </html>
