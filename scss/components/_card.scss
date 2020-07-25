@@ -4,4 +4,11 @@
   margin: 0 auto;
   border: 1px solid grey;
   display: flex;
+  align-items: center;
+  &__image {
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    border-radius: 50%;
+  }
 }

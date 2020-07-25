@@ -333,7 +333,13 @@ template {
   width: 90%;
   margin: 0 auto;
   border: 1px solid grey;
-  display: flex; }
+  display: flex;
+  align-items: center; }
+  .employee__image {
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    border-radius: 50%; }
 
 .modal__overlay {
   position: fixed;
@@ -346,7 +352,8 @@ template {
   align-items: center;
   justify-content: center;
   visibility: hidden;
-  opacity: 0; }
+  opacity: 0;
+  transition: visibility 0s, opacity 0.7s; }
 
 .active {
   visibility: visible;
