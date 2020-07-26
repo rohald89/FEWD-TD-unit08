@@ -8,14 +8,16 @@
   align-items: center;
   justify-content: center;
   visibility: hidden;
+  transform: translateY(-400px);
   opacity: 0;
-  transition: visibility 0s, opacity 0.8s;
+  transition: transform 0.4s, visibility 0s, opacity 0.8s;
 }
 
 .active {
   visibility: visible;
   opacity: 1;
   z-index: 1;
+  transform: translateY(0px);
 }
 
 .main {
