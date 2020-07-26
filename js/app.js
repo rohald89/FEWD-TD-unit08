@@ -12,6 +12,7 @@ fetch(url)
   .then((response) => response.json())
   .then((data) => data.results)
   .then(generateEmployee)
+  .then(getEmployeeNames)
   .catch((err) => console.log(err));
 
 // loop through the data from the api and create the cards for each employee
@@ -98,7 +99,25 @@ modalOverlay.firstElementChild.addEventListener("click", (e) => {
   }
 });
 
-// console.log(employees);
-const employeeNames = document.getElementsByClassName("employee");
-console.log(employeeNames);
 // Search function
+
+// get an array of employeenames
+let employeeNames = [];
+function getEmployeeNames() {
+  employees.forEach((employee) =>
+    employeeNames.push(`${employee.name.first} ${employee.name.last}`)
+  );
+}
+
+const search = document.getElementById("search");
+search.addEventListener("keyup", () => {
+  const employeeCards = document.querySelectorAll(".employee");
+  const searchValue = search.value.toLowerCase();
+  employeeNames.forEach((employee, i) => {
+    if (employee.toLowerCase().indexOf(searchValue) < 0) {
+      employeeCards[i].style.display = "none";
+    } else {
+      employeeCards[i].style.display = "";
+    }
+  });
+});
