@@ -1,0 +1,31 @@
+.employee {
+  border: 1px solid $accent-color;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  background-color: $secondary-color;
+  // box-sizing: border-box;
+  // overflow-wrap: break-word;
+  &__image {
+    height: 90px;
+    width: 90px;
+    margin: 10px;
+    border-radius: 50%;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+  &__name {
+    font-size: 1rem;
+  }
+  &__email,
+  &__city {
+    font-size: 0.6rem;
+    margin: 5px 0;
+  }
+  &:hover {
+    box-shadow: 0 0 3px $accent-color;
+  }
+}

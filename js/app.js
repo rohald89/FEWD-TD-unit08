@@ -1,45 +1,104 @@
-let modalOverlay = document.querySelector(".modal__overlay");
-let closeModal = document.querySelector(".modal__close");
+let employees = [];
+const url = `https://randomuser.me/api/?results=12&inc=name, picture,
+email, location, phone, dob &noinfo &nat=NL`;
 let cardContainer = document.querySelector(".card-container");
-let employees = document.getElementsByClassName("employee");
 
-fetch("https://randomuser.me/api/?results=12")
+let modalOverlay = document.querySelector(".modal__overlay");
+let modal = document.querySelector(".modal");
+let closeModal = document.getElementById("modal__close");
+let main = document.querySelector(".main");
+
+fetch(url)
   .then((response) => response.json())
-  .then((data) => generateEmployee(data.results));
+  .then((data) => data.results)
+  .then(generateEmployee)
+  .catch((err) => console.log(err));
 
+// loop through the data from the api and create the cards for each employee
 function generateEmployee(data) {
-  console.log(data);
-  const html = data
-    .map(
-      (item) => `<div class="employee">
-                <img src="${item.picture.thumbnail}" alt="profile image of ${item.name.first}" class="employee__image"/>
-                 <div id="modal__employee--info">
-                   <h2 class="employee__name">${item.name.first} ${item.name.last}</h2>
-                   <p class="employee__email">${item.email}</p>
-                   <p class="employee__city">${item.location.city}</p>
-                 </div>
-              </div>`
-    )
-    .join("");
-  cardContainer.innerHTML = html;
+  employees = data;
+  let employeeHTML = "";
+
+  employees.forEach((employee, index) => {
+    let image = employee.picture.large;
+    let name = employee.name;
+    let email = employee.email;
+    let city = employee.location.city;
+
+    employeeHTML += `
+                  <div class="employee" data-index="${index}">
+                    <img src="${image}" alt="profile image of ${name.first}" class="employee__image"/>
+                    <div class="employee__info">
+                      <h2 class="employee__name">${name.first} ${name.last}</h2>
+                      <p class="employee__email">${email}</p>
+                      <p class="employee__city">${city}</p>
+                    </div>
+                  </div>
+    `;
+  });
+  cardContainer.innerHTML = employeeHTML;
 }
 
-closeModal.addEventListener("click", () => {
-  modalOverlay.classList.remove("active");
+// Create modal
+
+function createModal(index) {
+  let {
+    name,
+    dob,
+    phone,
+    email,
+    location: { city, street, state, postcode },
+    picture,
+  } = employees[index];
+
+  let date = new Date(dob.date);
+
+  const modalHTML = `
+                <i class="fad fa-times" id="modal__close"></i>
+                <div class="modal__image-container">
+                  <i class="fad fa-angle-left fa-2x left-arrow"></i>
+                  <img class="modal__image" src="${picture.large}" />
+                  <i class="fad fa-angle-right fa-2x right-arrow"></i>
+                </div>
+                  <div class="modal__info">
+                    <h2 class="modal__name">${name.first} ${name.last}</h2>
+                    <p class="modal__email">${email}</p>
+                    <p class="modal__city">${city}</p>
+                    <hr/>
+                    <p class="modal__phone">${phone}</p>
+                    <p class="modal__address">${street.number} ${
+    street.name
+  }, ${state} ${postcode}</p>
+                    <p class="modal__bday">Birthday: ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
+                    
+                  </div>
+  `;
+
+  modalOverlay.classList.add("active");
+  main.classList.add("modal-active");
+  modal.innerHTML = modalHTML;
+}
+
+// Open Modal when a card is selected
+
+cardContainer.addEventListener("click", (e) => {
+  if (e.target !== cardContainer) {
+    const employee = e.target.closest(".employee");
+    const index = employee.getAttribute("data-index");
+    createModal(index);
+  }
 });
 
-for (let i = 0; i < employees.length; i++) {
-  let employee = employees[i];
-  employee.addEventListener("click", () => {
-    modalOverlay.classList.add("active");
-  });
-  //   let modalImage = document
-  //     .getElementById("modal__employee")
-  //     .firstElementChild.getAttribute("src");
-  //   let modalInfo = document.getElementById("modal__employee--info");
+// Close modal when X is selected
 
-  // modalImage = e.target.firstElementChild.getAttribute("src");
-  // console.log(modalInfo);
-  // console.log(e.target.lastElementChildk);
-  // modalInfo.innerHTML = e.target.lastElementChild;
-}
+modalOverlay.firstElementChild.addEventListener("click", (e) => {
+  if (e.target.getAttribute("id") === "modal__close") {
+    modalOverlay.classList.remove("active");
+    main.classList.remove("modal-active");
+  }
+});
+
+// console.log(employees);
+const employeeNames = document.getElementsByClassName("employee");
+console.log(employeeNames);
+// Search function

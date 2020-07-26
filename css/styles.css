@@ -25,10 +25,14 @@ html {
 /**
  * Remove the margin in all browsers.
  */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
 body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box; }
+  padding: 0; }
 
 /**
  * Render the `main` element consistently in IE.
@@ -314,32 +318,54 @@ template {
 [hidden] {
   display: none; }
 
+* {
+  font-family: "Montserrat", sans-serif; }
+
+body {
+  background-color: #eeeeee; }
+
+.main__heading {
+  color: #555555;
+  text-align: center; }
+
 /* ============================================= */
 /* Components Imports */
 /* ============================================= */
 .card-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-gap: 1rem; }
-  @media (min-width: 768px) {
-    .card-container {
-      grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1024px) {
-    .card-container {
-      grid-template-columns: repeat(3, 1fr); } }
-
-.employee {
+  max-width: 1400px;
   width: 90%;
   margin: 0 auto;
-  border: 1px solid grey;
+  display: grid;
+  grid-gap: 2rem; }
+  @media (min-width: 768px) {
+    .card-container {
+      grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) {
+    .card-container {
+      grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.employee {
+  border: 1px solid #555555;
+  border-radius: 5px;
+  padding: 5px;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  background-color: #fcfcfc; }
   .employee__image {
-    height: 100px;
-    width: 100px;
+    height: 90px;
+    width: 90px;
     margin: 10px;
     border-radius: 50%; }
+  .employee__info {
+    display: flex;
+    flex-direction: column; }
+  .employee__name {
+    font-size: 1rem; }
+  .employee__email, .employee__city {
+    font-size: 0.6rem;
+    margin: 5px 0; }
+  .employee:hover {
+    box-shadow: 0 0 3px #555555; }
 
 .modal__overlay {
   position: fixed;
@@ -347,28 +373,96 @@ template {
   top: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.7s; }
+  transition: visibility 0s, opacity 0.8s; }
 
 .active {
   visibility: visible;
-  opacity: 1; }
+  opacity: 1;
+  z-index: 1; }
+
+.main {
+  transition: filter 0.4s; }
+
+.modal-active {
+  filter: blur(10px); }
 
 .modal {
   background: white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: relative;
-  height: 50%;
-  width: 50%; }
+  width: 90%;
+  text-align: center;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .modal__image {
+    border-radius: 50%;
+    margin: 30px 30px; }
+    .modal__image-container {
+      display: flex;
+      align-items: center; }
+  .modal__info {
+    width: 90%; }
+    .modal__info h2 {
+      font-size: 2rem;
+      line-height: 1.6rem;
+      margin: 20px 0; }
+    .modal__info hr {
+      margin: 40px 0; }
+    .modal__info p {
+      font-size: 0.9rem;
+      margin: 10px 0; }
 
-.modal__close {
+#modal__close {
   position: absolute;
   right: 15px;
   top: 15px;
+  font-size: 1.5rem;
   cursor: pointer; }
+
+.search {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto; }
+
+.focus-line {
+  width: 70%;
+  min-width: 250px;
+  position: relative;
+  overflow: hidden; }
+  .focus-line:focus-within::before {
+    transform: translateX(0%); }
+  .focus-line::before {
+    content: "";
+    width: 100%;
+    height: 3px;
+    border-bottom: 3px solid #555555;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.8s; }
+
+.search-input {
+  width: 100%;
+  border: none;
+  background-color: #eeeeee;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  padding: 8px; }
+  .search-input::placeholder {
+    font-size: 1rem; }
+  .search-input:focus {
+    outline: none; }
 
 /*# sourceMappingURL=styles.css.map */

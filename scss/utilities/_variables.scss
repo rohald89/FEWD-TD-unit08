@@ -1,3 +1,9 @@
+// COLORS =========//
+
+$primary-color: rgb(238, 238, 238);
+$secondary-color: rgb(252, 252, 252);
+$accent-color: darken($primary-color, 60%);
+
 // BREAKPOINT ======== //
 
 $bp-m: "min-width: 768px";
