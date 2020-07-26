@@ -8,6 +8,8 @@ let modal = document.querySelector(".modal");
 let closeModal = document.getElementById("modal__close");
 let main = document.querySelector(".main");
 
+let activeModal = 0;
+
 fetch(url)
   .then((response) => response.json())
   .then((data) => data.results)
@@ -57,9 +59,9 @@ function createModal(index) {
   const modalHTML = `
                 <i class="fad fa-times" id="modal__close"></i>
                 <div class="modal__image-container">
-                  <i class="fad fa-angle-left fa-2x left-arrow"></i>
+                  <i class="fad fa-angle-left fa-2x" id="left-arrow"></i>
                   <img class="modal__image" src="${picture.large}" />
-                  <i class="fad fa-angle-right fa-2x right-arrow"></i>
+                  <i class="fad fa-angle-right fa-2x" id="right-arrow"></i>
                 </div>
                   <div class="modal__info">
                     <h2 class="modal__name">${name.first} ${name.last}</h2>
@@ -78,6 +80,7 @@ function createModal(index) {
   modalOverlay.classList.add("active");
   main.classList.add("modal-active");
   modal.innerHTML = modalHTML;
+  activeModal = index;
 }
 
 // Open Modal when a card is selected
@@ -100,8 +103,6 @@ modalOverlay.firstElementChild.addEventListener("click", (e) => {
 });
 
 // Search function
-
-// get an array of employeenames
 let employeeNames = [];
 function getEmployeeNames() {
   employees.forEach((employee) =>
@@ -120,4 +121,17 @@ search.addEventListener("keyup", () => {
       employeeCards[i].style.display = "";
     }
   });
+});
+
+// scroll through employee cards in modal
+
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target.getAttribute("id") === "left-arrow" && activeModal > 0) {
+    createModal(activeModal - 1);
+  } else if (
+    e.target.getAttribute("id") === "right-arrow" &&
+    activeModal < employees.length - 1
+  ) {
+    createModal(activeModal + 1);
+  }
 });
