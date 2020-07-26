@@ -405,10 +405,13 @@ body {
   align-items: center; }
   .modal__image {
     border-radius: 50%;
-    margin: 30px 30px; }
+    margin: 30px 60px; }
     .modal__image-container {
       display: flex;
       align-items: center; }
+      .modal__image-container #left-arrow,
+      .modal__image-container #right-arrow {
+        cursor: pointer; }
   .modal__info {
     width: 90%; }
     .modal__info h2 {

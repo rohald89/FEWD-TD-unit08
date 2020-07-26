@@ -63,24 +63,23 @@ function createModal(index) {
                   <img class="modal__image" src="${picture.large}" />
                   <i class="fad fa-angle-right fa-2x" id="right-arrow"></i>
                 </div>
-                  <div class="modal__info">
-                    <h2 class="modal__name">${name.first} ${name.last}</h2>
-                    <p class="modal__email">${email}</p>
-                    <p class="modal__city">${city}</p>
-                    <hr/>
-                    <p class="modal__phone">${phone}</p>
-                    <p class="modal__address">${street.number} ${
+                <div class="modal__info">
+                  <h2 class="modal__name">${name.first} ${name.last}</h2>
+                  <p class="modal__email">${email}</p>
+                  <p class="modal__city">${city}</p>
+                  <hr/>
+                  <p class="modal__phone">${phone}</p>
+                  <p class="modal__address">${street.number} ${
     street.name
   }, ${state} ${postcode}</p>
-                    <p class="modal__bday">Birthday: ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
-                    
-                  </div>
+                  <p class="modal__bday">Birthday: ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
+                </div>
   `;
 
   modalOverlay.classList.add("active");
   main.classList.add("modal-active");
   modal.innerHTML = modalHTML;
-  activeModal = index;
+  activeModal = parseInt(index);
 }
 
 // Open Modal when a card is selected
@@ -128,10 +127,14 @@ search.addEventListener("keyup", () => {
 modalOverlay.addEventListener("click", (e) => {
   if (e.target.getAttribute("id") === "left-arrow" && activeModal > 0) {
     createModal(activeModal - 1);
-  } else if (
+  } else return;
+});
+
+modalOverlay.addEventListener("click", (e) => {
+  if (
     e.target.getAttribute("id") === "right-arrow" &&
     activeModal < employees.length - 1
   ) {
     createModal(activeModal + 1);
-  }
+  } else return;
 });
