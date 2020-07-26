@@ -1,14 +1,16 @@
 let employees = [];
+let employeeNames = [];
 const url = `https://randomuser.me/api/?results=12&inc=name, picture,
 email, location, phone, dob &noinfo &nat=NL`;
 let cardContainer = document.querySelector(".card-container");
 
 let modalOverlay = document.querySelector(".modal__overlay");
 let modal = document.querySelector(".modal");
-let closeModal = document.getElementById("modal__close");
+let closeModalBtn = document.getElementById("modal__close");
 let main = document.querySelector(".main");
+const search = document.getElementById("search");
 
-let activeModal = 0;
+let activeModal;
 
 fetch(url)
   .then((response) => response.json())
@@ -17,7 +19,7 @@ fetch(url)
   .then(getEmployeeNames)
   .catch((err) => console.log(err));
 
-// loop through the data from the api and create the cards for each employee
+// loop through the data from the api and create the card for each employee
 function generateEmployee(data) {
   employees = data;
   let employeeHTML = "";
@@ -43,7 +45,6 @@ function generateEmployee(data) {
 }
 
 // Create modal
-
 function createModal(index) {
   let {
     name,
@@ -83,34 +84,31 @@ function createModal(index) {
 }
 
 // Open Modal when a card is selected
-
-cardContainer.addEventListener("click", (e) => {
+function openModal(e) {
   if (e.target !== cardContainer) {
     const employee = e.target.closest(".employee");
     const index = employee.getAttribute("data-index");
     createModal(index);
   }
-});
+}
 
-// Close modal when X is selected
-
-modalOverlay.firstElementChild.addEventListener("click", (e) => {
+// Close modal when X is clicked
+function closeModal(e) {
   if (e.target.getAttribute("id") === "modal__close") {
     modalOverlay.classList.remove("active");
     main.classList.remove("modal-active");
   }
-});
+}
 
-// Search function
-let employeeNames = [];
+//create an array of Employee names with first and last names
 function getEmployeeNames() {
   employees.forEach((employee) =>
     employeeNames.push(`${employee.name.first} ${employee.name.last}`)
   );
 }
 
-const search = document.getElementById("search");
-search.addEventListener("keyup", () => {
+//filter employees from the array made above and see if they match the search value the visitor typed in
+function filterEmployees() {
   const employeeCards = document.querySelectorAll(".employee");
   const searchValue = search.value.toLowerCase();
   employeeNames.forEach((employee, i) => {
@@ -120,21 +118,22 @@ search.addEventListener("keyup", () => {
       employeeCards[i].style.display = "";
     }
   });
-});
+}
 
-// scroll through employee cards in modal
-
-modalOverlay.addEventListener("click", (e) => {
+// scroll through employee cards in modal by checking the current open modal and increasing / decreasing the index
+function changeModal(e) {
   if (e.target.getAttribute("id") === "left-arrow" && activeModal > 0) {
     createModal(activeModal - 1);
-  } else return;
-});
-
-modalOverlay.addEventListener("click", (e) => {
-  if (
+  } else if (
     e.target.getAttribute("id") === "right-arrow" &&
     activeModal < employees.length - 1
   ) {
     createModal(activeModal + 1);
   } else return;
-});
+}
+
+// Eventlisteners
+modalOverlay.addEventListener("click", (e) => changeModal(e));
+search.addEventListener("keyup", (e) => filterEmployees(e));
+cardContainer.addEventListener("click", (e) => openModal(e));
+modalOverlay.firstElementChild.addEventListener("click", (e) => closeModal(e));
